@@ -300,10 +300,117 @@ ithingvvv@instance-1:/usr/local/hadoop-3.3.1$ jps
 12331 Jps
 ```
 
-
-
-```
-
-```
-
 <img src="./imgs/yarn.PNG"/>
+
+---
+
+- 하둡 버전 확인
+```
+ithingvvv@instance-1:/usr/local/hadoop-3.3.1$ hadoop version
+Hadoop 3.3.1
+Source code repository https://github.com/apache/hadoop.git -r a3b9c37a397ad4188041dd80621bdeefc46885f2
+Compiled by ubuntu on 2021-06-15T05:13Z
+Compiled with protoc 3.7.1
+From source with checksum 88a4ddb2299aca054416d6b7f81ca55
+This command was run using /usr/local/hadoop-3.3.1/share/hadoop/common/hadoop-common-3.3.1.jar
+```
+
+- HDFS 
+
+
+```
+
+# tmp 폴더 생성 
+hadoop fs -mkdir /tmp
+
+hadoop fs -mkdir /tmp/hive
+
+hadoop fs -mkdir /user
+hadoop fs -mkdir /user/hive
+hadoop fs -mkdir /user/hive/warehouse
+
+hadoop fs -ls /
+
+```
+
+- ls 
+
+```
+hadoop fs -ls -R /
+```
+
+
+- put
+
+```
+hadoop fs -mkdir -p "/user/hoon/hadoop/test"
+
+hadoop fs -put LICENSE.txt /user/hoon/hadoop/test/
+
+hadoop fs -ls -h /user/hoon/hadoop/test/
+```
+
+- copyFromLocal
+
+- hadoop fs -copyFromLocal <localsrc> <hdfs destination>
+
+```
+hadoop fs -copyFromLocal ~/test /copytest
+hadoop fs -cat /copytest
+```
+
+- get
+- hadoop fs -get <src> <localdest>
+```
+hadoop fs -get /testfile ~/copyfromhadoop
+```
+
+
+- copyToLocal
+
+hadoop fs -copyToLocal <hdfs source> <localdst>
+
+```
+hadoop fs -copyToLocal /sample ~/copysample
+```
+
+- cat
+
+```
+hadoop fs -cat /sample
+```
+
+- mv
+
+```
+hadoop fs -mv <src> <dest>
+```
+
+- cp
+
+```
+hadoop fs -ls /dataflair
+```
+
+- moveFromLocal
+
+```
+hadoop fs -moveFromLocal ~/test /
+```
+
+- tail
+
+```
+hadoop fs -tail /test
+```
+
+- rm
+```
+hadoop fs -ls /
+```
+
+- chown
+```
+hadoop fs -chown 
+```
+
