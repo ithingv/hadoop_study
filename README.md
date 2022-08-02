@@ -4,9 +4,6 @@
 
 - 분산 데이터 처리 기술: 큰 용량의 단일 서버보다 여러 서버의 작은 용량을 묶은 컴퓨터 클러스터로 구성
 
-- RAID와 Hadoop
-    - 레이드 시스템은 디스크는 여러개, OS 1개, CPU 1개, 
-
 ---
 # HDFS
 
@@ -96,6 +93,8 @@ HDFS 파일 저장과 조회
 
 `Slave Node` : 물리적으로 Slave Node 역할(Data Node, Task Node)을 하는 노드로서, 실제로 데이터를 분산되어가지고 있으며 Client에서 요청이 오면 데이터를 전달하는 역할 및 담당 Task를 수행하는 역할을 합니다.
 
+---
+
 Data Analytics 관점
 Job Tracker: 노드에 Task를 할당하는 역할과 모든 Task를 모니터링하고 실패할 경우 Task를 재실행하는 역할.
 Task Tracker: Task는 Map Task와 Reduce Task로 나눠질 수 있으며, Task가 위치한 HDFS의 데이터를 사용하여 MapReduce를 수행.
@@ -106,7 +105,7 @@ Data Node: 데이터를 HDFS의 Block 단위로 구성. Fault Recovery를 위해
 
 ---
 
-### 하둡 설치
+### 하둡 설치 
 
 - JDK 설치
 ```
@@ -125,7 +124,7 @@ fi
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 export PATH=$PATH:$JAVA_HOME/bin
 
-ithingvvv@instance-1:~$ cat ~/.bash_profile 
+$ cat ~/.bash_profile 
 if [ -f ~/.bashrc ]; then
         . ~/.bashrc
 fi
@@ -133,10 +132,9 @@ fi
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 export PATH=$PATH:$JAVA_HOME/bin
 
-
-ithingvvv@instance-1:~$ echo $JAVA_HOME
+$ echo $JAVA_HOME
 /usr/lib/jvm/java-11-openjdk-amd64
-ithingvvv@instance-1:~$ echo $PATH
+$ echo $PATH
 /usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/lib/jvm/java-11-openjdk-amd64/bin
 
 ```
@@ -146,27 +144,17 @@ source ~/.bash_profile
 ```
 
 ```
-ithingvvv@instance-1:~/spark/bin$ java -version
+$ java -version
 openjdk version "11.0.15" 2022-04-19
 OpenJDK Runtime Environment (build 11.0.15+10-post-Debian-1deb10u1)
 OpenJDK 64-Bit Server VM (build 11.0.15+10-post-Debian-1deb10u1, mixed mode, sharing)
 ```
 
-- 
+- hadoop 다운로드 파일
 https://downloads.apache.org/hadoop/common/hadoop-3.3.1/
 
 ```
-ithingvvv@instance-1:~/spark/bin$ wget https://downloads.apache.org/hadoop/common/hadoop-3.3.1/hadoop-3.3.1.tar.gz
---2022-05-17 06:29:15--  https://downloads.apache.org/hadoop/common/hadoop-3.3.1/hadoop-3.3.1.tar.gz
-Resolving downloads.apache.org (downloads.apache.org)... 88.99.95.219, 135.181.214.104, 2a01:4f8:10a:201a::2, ...
-Connecting to downloads.apache.org (downloads.apache.org)|88.99.95.219|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 605187279 (577M) [application/x-gzip]
-Saving to: ‘hadoop-3.3.1.tar.gz’
-
-hadoop-3.3.1.tar.gz     100%[=============================>] 577.15M  18.2MB/s    in 34s     
-
-2022-05-17 06:29:50 (16.7 MB/s) - ‘hadoop-3.3.1.tar.gz’ saved [605187279/605187279]
+$ wget https://downloads.apache.org/hadoop/common/hadoop-3.3.1/hadoop-3.3.1.tar.gz
 ```
 
 ```
@@ -194,9 +182,9 @@ export HADOOP_HOME=/usr/local/hadoop-3.3.1
 export HADOOP_CONF_DIR=${HADOOP_HOME}/etc/hadoop
 export PATH=$PATH:JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$HADOOP_HOME/bin
 
-ithingvvv@instance-1:~$ echo $HADOOP_HOME
+$echo $HADOOP_HOME
 /usr/local/hadoop-3.3.1
-ithingvvv@instance-1:~$ echo $HADOOP_CONF_DIR
+$ echo $HADOOP_CONF_DIR
 /usr/local/hadoop-3.3.1/etc/hadoop
 ```
 
@@ -230,27 +218,11 @@ ithingvvv@instance-1:/usr/local/hadoop-3.3.1/etc/hadoop$ cat core-site.xml
 - 
 
 ```
-ithingvvv@instance-1:~$ ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
-Generating public/private rsa key pair.
-Your identification has been saved in /home/ithingvvv/.ssh/id_rsa.
-Your public key has been saved in /home/ithingvvv/.ssh/id_rsa.pub.
-The key fingerprint is:
-SHA256:qib0sNdZW7PHVGA30ovc6cJztvKTlVLMOmG/miBvSgY ithingvvv@instance-1
-The key's randomart image is:
-+---[RSA 2048]----+
-|             .   |
-|            + +  |
-|           o *o+ |
-|            oo=+ |
-|       ES  ..o= .|
-|  o    .o o =++o.|
-| . + ..o * * =o+.|
-|  o +.o + +.= =. |
-|   +.    .oo =o. |
-+----[SHA256]-----+
-ithingvvv@instance-1:~$ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-ithingvvv@instance-1:~$ 
-ithingvvv@instance-1:~$ chmod 0600 ~/.ssh/authorized_keys
+ssh key 생성 및 저장
+
+$ ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+$ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+$ chmod 0600 ~/.ssh/authorized_keys
 ```
 
 - JAVA_HOME 찾을 수 없는 에러
@@ -259,12 +231,14 @@ https://nirsa.tistory.com/114
 네임노드 데몬 실행
 
 ```
-ithingvvv@instance-1:/usr/local/hadoop-3.3.1$ vi etc/hadoop/hadoop-env.sh
-ithingvvv@instance-1:/usr/local/hadoop-3.3.1$ sbin/start-dfs.sh
+$ vi /usr/local/hadoop-3.3.1/etc/hadoop/hadoop-env.sh
+$ /usr/local/hadoop-3.3.1/sbin/start-dfs.sh
+
 Starting namenodes on [localhost]
 Starting datanodes
 Starting secondary namenodes [instance-1]
-ithingvvv@instance-1:/usr/local/hadoop-3.3.1$ jps
+
+$ jps
 11280 DataNode
 11186 NameNode
 11448 SecondaryNameNode
@@ -272,14 +246,6 @@ ithingvvv@instance-1:/usr/local/hadoop-3.3.1$ jps
 ```
 
 - 외부 IP로 Compute Engine 접속
-
-https://cloud.google.com/solutions/connecting-securely?hl=ko
-
-- 방화벽 설정
-- 0.0.0.0/0
-- 9870 포트
-
-http://34.125.151.93:9870/
 
 <img src="./imgs/namenode.PNG"/>
 
